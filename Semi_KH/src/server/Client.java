@@ -1,4 +1,4 @@
-package MainFrame;
+package server;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +19,9 @@ import javax.swing.JTextField;
 
 import server.model.UserDto;
 
+import MainFrame.IdFindMain;
+import MainFrame.PwFindMain;
+import MainFrame.JoinMain;
 
 
 //import server.ClientMain.Receiver;
@@ -27,12 +30,10 @@ class IdfindButton implements ActionListener
 {
 	int kind = 0;
 	public IdfindButton(int num) {
-		// TODO Auto-generated constructor stub
 		this.kind = num;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if(kind==0)new IdFindMain();
 		if(kind==1)new PwFindMain();
 		if(kind==2)new JoinMain();
