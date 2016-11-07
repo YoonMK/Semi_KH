@@ -72,14 +72,11 @@ public class ServerMain {
 					System.out.println(input.readUTF());
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			finally{
 				clients.remove(name);
 				sendToAll("#"+name+"님이 퇴장하셨습니다.");
 				System.out.println("현재접속자수:"+clients.size());
-			}// finally 종료
-
+			}
+		
 		}// run 종료
 	}
 	void sendToAll(String msg)
