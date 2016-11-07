@@ -2,16 +2,16 @@ package server;
 
 import java.util.ArrayList;
 
-import jdbc_p.model.StudDao;
-import jdbc_p.model.StudDto;
+import server.model.UserDao;
+import server.model.UserDto;
 
-public class StudDataMain {
+
+public class User_info {
 
 	public static void main(String[] args) {
 		// DataMain에서 생성자를 통해 여기서 수정 및 변경 , 추가를 한다
 
-		new User_info().insertList();
-		ArrayList<UserDao> list = new UserDao().list();
+		ArrayList<UserDto> list = new UserDao().list();
 		
 		for (UserDto dto : list) {
 			System.out.println(dto);
