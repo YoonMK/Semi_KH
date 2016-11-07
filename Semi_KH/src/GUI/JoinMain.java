@@ -29,7 +29,6 @@ public class JoinMain extends JFrame{
 	JTextField number3 = new JTextField();
 	JTextField emailaddress = new JTextField();
 	public JoinMain() {
-		// TODO Auto-generated constructor stub
 		setBounds(101, 200, 530, 400);
 		setLayout(null);
 		id.setBounds(101,  10, 100, 30);
