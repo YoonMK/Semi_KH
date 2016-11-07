@@ -21,8 +21,6 @@ import javax.swing.JTextArea;
 
 
 
-
-
 public class Buyouu2 extends JFrame {
 
 	JPanel GameUser = new JPanel();
@@ -110,9 +108,9 @@ public class Buyouu2 extends JFrame {
 		
 			random2.y+=dy1;//움직이게 해준다.
 
-			if(random2.y>620){
-				random2.y=620;
-			}
+//			if(random2.y+40>620&&random2.x==random2.x){
+//				random2.y=620;
+//			}
 			setLocation(random2.x,random2.y);//기준점 오른쪽 기준빨간색.
 //			setLocation(random2.x-40,random2.y+40);// 밑으로 감
 //			setLocation(random2.x-80,random2.y);//왼쪽으로감
@@ -150,7 +148,7 @@ public class Buyouu2 extends JFrame {
 				// 그리고 0일때는 맨처음 초기값으로 다시 지정을 해준다.		
 				if(kind==0){ random2.x=random.x+40; random2.y=random2.y+40; break;}	
 
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_DOWN://다운키를 눌럿을떄. +25 씩 증가 한다.
 					random.y+=down;
 					random2.y+=down;
 		            break;   
