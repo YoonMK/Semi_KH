@@ -42,22 +42,28 @@ public class UserDao {
 			{
 				UserDto dto = new UserDto();
 
-				dto.id = rs.getString("");
-				dto.pw = rs.getString("");
+				dto.id = rs.getString("admin");
+				dto.pw = rs.getString("admin");
+				dto.name = rs.getString("admin");
 
 				res.add(dto);
 			}
 
 		} catch (Exception e) {e.printStackTrace();} finally{close();}
+		
 		return res;
 	}
 	///»ðÀÔ
 	public void insert(UserDto dto)
 	{
 		try {
-			sql = "insert into user_info (id,pw) "
-					+" values ("+dto.id+",'"+dto.pw+"')";
-			System.out.println(stmt.executeUpdate(sql));
+			sql = "insert into user_info (id,pw,name) "
+					+" values ('"+dto.id
+					+"','"+dto.pw+
+					",'"+dto.name+
+					"')";
+			System.out.println(sql);
+			//stmt.executeUpdate(sql);
 
 		} catch (Exception e) {e.printStackTrace();} finally{close();}
 

@@ -17,13 +17,13 @@ public class User_info {
 			System.out.println(dto);
 		}
 		
-	/*	StudDto dto = new StudDto();
-		dto.setId(11);
-		dto.setNnn("±Ë≈¬»Ò");
-		dto.setEmail("eee@eee.com");
-		dto.setBbbStr("1988-08-08");
-		new StudDao().insert(dto);
-	*/
+		UserDto dto = new UserDto();
+		dto.setId("admin");
+		dto.setPw("admin");
+		dto.setName("admin");
+		
+		new UserDao().insert(dto);
+	
 	}
 
 }

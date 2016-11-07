@@ -86,7 +86,7 @@ public class ClientMain extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	class Button implements ActionListener {// ip확인 누를때
+	public class Button implements ActionListener {// ip확인 누를때
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ip = "127.0.0.1";
