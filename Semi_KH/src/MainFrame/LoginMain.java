@@ -3,12 +3,22 @@ package MainFrame;
 import java.awt.Color;import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import server.ClientMain.Button;
+
+//import server.ClientMain.Receiver;
 
 class IdfindButton implements ActionListener 
 {
@@ -24,11 +34,27 @@ class IdfindButton implements ActionListener
 		if(kind==1)new PwFindMain();
 		if(kind==2)new JoinMain();
 	}
-	
 }
 
 public class LoginMain extends JFrame {
 
+	JTextField ip_F = new JTextField();// ip 입력창
+	JTextField port_F = new JTextField();// 포트입력창
+	
+	JButton ip_chk = new JButton("접속"); // ip 확인버튼
+	
+	JTextArea txt_area= new JTextArea(); // 채팅창
+	JScrollPane txt_scrol = new JScrollPane(txt_area);// 채팅창스크롤
+	
+	JTextField chat_area= new JTextField();//채팅입력창
+	JButton chat_chk = new JButton("전송"); // 전송버튼
+	
+	Socket socket;
+	
+	String ip;
+	int port;
+	
+	
 	JLabel id = new JLabel("I  D:");
 	JLabel pw = new JLabel("PW:");
 	JTextField idtf = new JTextField();
@@ -54,6 +80,7 @@ public class LoginMain extends JFrame {
 		add(pwtf);
 		chk.setBounds(500, 500, 100, 40);
 		add(chk);
+		chk.addActionListener(new Chk_Button());
 		idfind.setBounds(300, 550, 100, 40);
 		add(idfind);
 		idfind.addActionListener(new IdfindButton(0));
@@ -68,6 +95,74 @@ public class LoginMain extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	class Chk_Button implements ActionListener {// 로그인 누를때
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ip = "192.168.219.124";
+			port = 7777;
+			socket(ip,port);
+		}
+	}
+	
+	class TCPSender {
+		DataOutputStream output;
+		String name;
+		String chat;
+		public TCPSender(Socket socket, String str) {
+			this.chat = str;
+			try {
+				output = new DataOutputStream(socket.getOutputStream());
+				name = "["+socket.getLocalAddress()+"]";
+				output.writeUTF(name+chat);
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	class Receiver extends Thread
+	{
+		DataInputStream input;
+		public Receiver(Socket socket) {
+			try {
+				input = new DataInputStream(socket.getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void run() {
+			while(input!=null)
+			{
+				try {
+					txt_area.append(input.readUTF()+"\n");
+					txt_area.setCaretPosition(txt_area.getDocument().getLength());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	void socket(String ip, int port) {
+		try {
+			Socket socket = new Socket(ip,port);
+			this.socket = socket;
+			
+			txt_area.append("서버 연결 성공\n");
+			new Receiver(socket).start();
+		} 
+		
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static void main(String[] args) {
 		new LoginMain();
 	}
