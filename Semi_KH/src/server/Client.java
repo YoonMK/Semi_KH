@@ -24,12 +24,10 @@ import GUI.PwFindMain;
 import GUI.JoinMain;
 
 
-//import server.ClientMain.Receiver;
-
-class IdfindButton implements ActionListener 
+class Find_Chk implements ActionListener 
 {
 	int kind = 0;
-	public IdfindButton(int num) {
+	public Find_Chk(int num) {
 		this.kind = num;
 	}
 	@Override
@@ -42,11 +40,6 @@ class IdfindButton implements ActionListener
 
 public class Client extends JFrame {
 
-	JTextField ip_F = new JTextField();// ip 입력창
-	JTextField port_F = new JTextField();// 포트입력창
-
-	JButton ip_chk = new JButton("접속"); // ip 확인버튼
-
 	JTextArea txt_area= new JTextArea(); // 채팅창
 	JScrollPane txt_scrol = new JScrollPane(txt_area);// 채팅창스크롤
 
@@ -55,21 +48,19 @@ public class Client extends JFrame {
 
 	Socket socket;
 
-	String ip;
-	int port;
-
 	UserDto dto = new UserDto();
 
 	JLabel id = new JLabel("I  D:");
 	JLabel pw = new JLabel("PW:");
-	JTextField idtf = new JTextField();
-	JPasswordField pwtf = new JPasswordField();
-	JButton chk = new JButton("로그인");
-	JButton idfind = new JButton("아이디찾기");
-	JButton pwfind = new JButton("비밀번호찾기");
+	JTextField id_txt = new JTextField();
+	JPasswordField pw_txt = new JPasswordField();
+	JButton login_chk = new JButton("로그인");
+	JButton find_ID = new JButton("아이디찾기");
+	JButton find_PW = new JButton("비밀번호찾기");
 	JButton join = new JButton("회원가입");
-	public Client() 
-	{
+	public Client() {
+		socket();
+		
 		setTitle("세영이뿌네");
 		setBounds(10,20,920,690);
 		setLayout(null);
@@ -79,45 +70,47 @@ public class Client extends JFrame {
 		pw.setBounds(300, 450, 70, 30);
 		pw.setFont(new Font("Serif", Font.BOLD, 25));
 		add(pw);
-		idtf.setBounds(360, 400, 240, 30);
-		add(idtf);
-		pwtf.setBounds(360, 450, 240, 30);
-		add(pwtf);
-		chk.setBounds(500, 500, 100, 40);
-		add(chk);
-		chk.addActionListener(new Chk_Button());
-		idfind.setBounds(300, 550, 100, 40);
-		add(idfind);
-		idfind.addActionListener(new IdfindButton(0));
-		pwfind.setBounds(400, 550, 100, 40);
-		pwfind.addActionListener(new IdfindButton(1));
-		add(pwfind);
+		id_txt.setBounds(360, 400, 240, 30);
+		add(id_txt);
+		pw_txt.setBounds(360, 450, 240, 30);
+		add(pw_txt);
+		login_chk.setBounds(500, 500, 100, 40);
+		add(login_chk);
+		login_chk.addActionListener(new Chk_Button());
+		find_ID.setBounds(300, 550, 100, 40);
+		add(find_ID);
+		find_ID.addActionListener(new Find_Chk(0));
+		find_PW.setBounds(400, 550, 100, 40);
+		find_PW.addActionListener(new Find_Chk(1));
+		add(find_PW);
 		join.setBounds(500, 550, 100, 40);
-		join.addActionListener(new IdfindButton(2));
+		join.addActionListener(new Find_Chk(2));
 		add(join);
-
-		//id.setText("admin");
-		//	pw.setText("admin");
-
 
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 
-	class Chk_Button implements ActionListener {// 로그인 누를때
+	class Chk_Button implements ActionListener { // 로그인 Btn_Chk
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			String id_chk ="admin";
 			String pw_chk ="admin";
-			/*ip = "127.0.0.1";//"192.168.219.124";
-			port = 7777;
-			socket(ip,port);*/
+			
+			char[] pw_arr1 = new char [pw_chk.length()];
+			
+			for (int i = 0; i < pw_arr1.length; i++) {
+				pw_arr1[i] = pw_chk.charAt(i);
+			}
+			
 
-			// if(id.equals("admin")){
-			if((idtf.getText().equals(id_chk))) {
-				if((pwtf.getPassword().equals(pw_chk))) {
+			if((id_txt.getText().equals(id_chk))) {
+				System.out.println("이건 됨?"); // ok
+				
+				// PW 비교 하게 하기.
+				if((pw_txt.getText().equals(pw_chk))) {
 					System.out.println("로그인 성공");
 				}
 			}
@@ -125,16 +118,6 @@ public class Client extends JFrame {
 				System.out.println("로그인 실패");
 			
 			
-//			else if(pw.equals("admin"))
-//			{
-//			dto.setPw(pw);
-//			System.out.println("로그인 성공");
-//			}
-//
-//			else{
-//				System.out.println("로그인 실패");
-//
-//			}
 		}
 	}
 
@@ -169,24 +152,24 @@ public class Client extends JFrame {
 
 		@Override
 		public void run() {
-			while(input!=null)
-			{
+			while(input!=null) {
 				try {
 					txt_area.append(input.readUTF()+"\n");
 					txt_area.setCaretPosition(txt_area.getDocument().getLength());
-				} catch (IOException e) {
+				} 
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	void socket(String ip, int port) {
+	void socket() {
 		try {
-			Socket socket = new Socket(ip,port);
+			Socket socket = new Socket("192.168.1.100",7777);
 			this.socket = socket;
 
-			txt_area.append("서버 연결 성공\n");
+			// txt_area.append("서버 연결 성공\n");
 			new Receiver(socket).start();
 		} 
 
@@ -195,9 +178,7 @@ public class Client extends JFrame {
 		}
 	}
 
-
 	public static void main(String[] args) {
 		new Client();
 	}
-
 }

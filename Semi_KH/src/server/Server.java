@@ -13,10 +13,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ServerMain {
+public class Server {
 	HashMap<String, DataOutputStream>clients ;
 	
-	public ServerMain() {
+	public Server() {
 		
 		clients =new HashMap();
 		Collections.synchronizedMap(clients);
@@ -96,6 +96,6 @@ public class ServerMain {
 		}
 	}
 	public static void main(String[] args) {
-		new ServerMain();
+		new Server();
 	}
 }
