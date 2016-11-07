@@ -19,9 +19,9 @@ import javax.swing.JTextField;
 
 import server.model.UserDto;
 
-import MainFrame.IdFindMain;
-import MainFrame.PwFindMain;
-import MainFrame.JoinMain;
+import GUI.IdFindMain;
+import GUI.PwFindMain;
+import GUI.JoinMain;
 
 
 //import server.ClientMain.Receiver;

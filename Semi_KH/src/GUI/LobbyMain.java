@@ -1,4 +1,4 @@
-package MainFrame;
+package GUI;
 
 import java.awt.Font;
 
