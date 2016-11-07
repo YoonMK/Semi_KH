@@ -17,7 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import server.ClientMain.Button;
+import server.model.UserDto;
+
+
 
 //import server.ClientMain.Receiver;
 
@@ -37,25 +39,26 @@ class IdfindButton implements ActionListener
 	}
 }
 
-public class LoginMain extends JFrame {
+public class Client extends JFrame {
 
 	JTextField ip_F = new JTextField();// ip 입력창
 	JTextField port_F = new JTextField();// 포트입력창
-	
+
 	JButton ip_chk = new JButton("접속"); // ip 확인버튼
-	
+
 	JTextArea txt_area= new JTextArea(); // 채팅창
 	JScrollPane txt_scrol = new JScrollPane(txt_area);// 채팅창스크롤
-	
+
 	JTextField chat_area= new JTextField();//채팅입력창
 	JButton chat_chk = new JButton("전송"); // 전송버튼
-	
+
 	Socket socket;
-	
+
 	String ip;
 	int port;
-	
-	
+
+	UserDto dto = new UserDto();
+
 	JLabel id = new JLabel("I  D:");
 	JLabel pw = new JLabel("PW:");
 	JTextField idtf = new JTextField();
@@ -64,7 +67,7 @@ public class LoginMain extends JFrame {
 	JButton idfind = new JButton("아이디찾기");
 	JButton pwfind = new JButton("비밀번호찾기");
 	JButton join = new JButton("회원가입");
-	public LoginMain() 
+	public Client() 
 	{
 		setTitle("세영이뿌네");
 		setBounds(10,20,920,690);
@@ -91,21 +94,49 @@ public class LoginMain extends JFrame {
 		join.setBounds(500, 550, 100, 40);
 		join.addActionListener(new IdfindButton(2));
 		add(join);
-		
-		
+
+		//id.setText("admin");
+		//	pw.setText("admin");
+
+
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
+
 	class Chk_Button implements ActionListener {// 로그인 누를때
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ip = "192.168.219.124";
+
+			String id_chk ="admin";
+			String pw_chk ="admin";
+			/*ip = "127.0.0.1";//"192.168.219.124";
 			port = 7777;
-			socket(ip,port);
+			socket(ip,port);*/
+
+			// if(id.equals("admin")){
+			if((idtf.getText().equals(id_chk))) {
+				if((pwtf.getPassword().equals(pw_chk))) {
+					System.out.println("로그인 성공");
+				}
+			}
+			else
+				System.out.println("로그인 실패");
+			
+			
+//			else if(pw.equals("admin"))
+//			{
+//			dto.setPw(pw);
+//			System.out.println("로그인 성공");
+//			}
+//
+//			else{
+//				System.out.println("로그인 실패");
+//
+//			}
 		}
 	}
-	
+
 	class TCPSender {
 		DataOutputStream output;
 		String name;
@@ -121,9 +152,9 @@ public class LoginMain extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	class Receiver extends Thread
 	{
 		DataInputStream input;
@@ -134,7 +165,7 @@ public class LoginMain extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		
+
 		@Override
 		public void run() {
 			while(input!=null)
@@ -148,24 +179,24 @@ public class LoginMain extends JFrame {
 			}
 		}
 	}
-	
+
 	void socket(String ip, int port) {
 		try {
 			Socket socket = new Socket(ip,port);
 			this.socket = socket;
-			
+
 			txt_area.append("서버 연결 성공\n");
 			new Receiver(socket).start();
 		} 
-		
+
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public static void main(String[] args) {
-		new LoginMain();
+		new Client();
 	}
 
 }

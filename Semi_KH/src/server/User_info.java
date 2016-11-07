@@ -17,12 +17,12 @@ public class User_info {
 			System.out.println(dto);
 		}
 		
-		UserDto dto = new UserDto();
+	/*	UserDto dto = new UserDto();
 		dto.setId("admin");
 		dto.setPw("admin");
 		dto.setName("admin");
 		
-		new UserDao().insert(dto);
+		new UserDao().insert(dto);*/
 	
 	}
 

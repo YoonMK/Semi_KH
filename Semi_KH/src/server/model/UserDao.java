@@ -29,7 +29,7 @@ public class UserDao {
 		}
 
 	}
-	/////리스트가져오기
+	/////리스트에서 가지고온 데이터 확인 
 	public ArrayList<UserDto> list()
 	{
 		ArrayList<UserDto> res = new ArrayList<>();
