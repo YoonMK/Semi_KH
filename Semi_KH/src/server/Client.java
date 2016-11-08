@@ -40,24 +40,33 @@ class Find_Chk implements ActionListener
 
 public class Client extends JFrame {
 
-	JTextArea txt_area= new JTextArea(); // 채팅창
-	JScrollPane txt_scrol = new JScrollPane(txt_area);// 채팅창스크롤
 
-	JTextField chat_area= new JTextField();//채팅입력창
-	JButton chat_chk = new JButton("전송"); // 전송버튼
 
 	Socket socket;
 
 	UserDto dto = new UserDto();
-
+	///////////////////////////////////////////  Login_Frame
 	JLabel id = new JLabel("I  D:");
-	JLabel pw = new JLabel("PW:");
 	JTextField id_txt = new JTextField();
+	
+	JLabel pw = new JLabel("P  W:");
 	JPasswordField pw_txt = new JPasswordField();
+	
 	JButton login_chk = new JButton("로그인");
+	
 	JButton find_ID = new JButton("아이디찾기");
 	JButton find_PW = new JButton("비밀번호찾기");
 	JButton join = new JButton("회원가입");
+	
+	///////////////////////////////////////////  Lobby_Frame
+	JTextArea txt_area= new JTextArea(); 
+	JScrollPane txt_scrol = new JScrollPane(txt_area);
+	JTextField chat_area= new JTextField();
+	JButton chat_chk = new JButton("전송");  
+	
+	
+	
+	
 	public Client() {
 		socket();
 		
@@ -76,7 +85,7 @@ public class Client extends JFrame {
 		add(pw_txt);
 		login_chk.setBounds(500, 500, 100, 40);
 		add(login_chk);
-		login_chk.addActionListener(new Chk_Button());
+		login_chk.addActionListener(new Login_Chk());
 		find_ID.setBounds(300, 550, 100, 40);
 		add(find_ID);
 		find_ID.addActionListener(new Find_Chk(0));
@@ -92,7 +101,7 @@ public class Client extends JFrame {
 	}
 
 
-	class Chk_Button implements ActionListener { // 로그인 Btn_Chk
+	class Login_Chk implements ActionListener { // 로그인 Btn_Chk
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -139,8 +148,7 @@ public class Client extends JFrame {
 
 	}
 
-	class Receiver extends Thread
-	{
+	class Receiver extends Thread {
 		DataInputStream input;
 		public Receiver(Socket socket) {
 			try {
@@ -166,13 +174,11 @@ public class Client extends JFrame {
 
 	void socket() {
 		try {
-			Socket socket = new Socket("192.168.1.100",7777);
+			Socket socket = new Socket("192.168.219.117",7777);
 			this.socket = socket;
 
-			// txt_area.append("서버 연결 성공\n");
 			new Receiver(socket).start();
 		} 
-
 		catch (IOException e) {
 			e.printStackTrace();
 		}
