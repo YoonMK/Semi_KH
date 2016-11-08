@@ -39,7 +39,22 @@ public class Server {
          e.printStackTrace();
       }
    }
-   
+   void sendToAll(String msg)
+   {
+      Iterator it =clients.keySet().iterator();
+      while(it.hasNext())
+      {
+         try {
+            DataOutputStream out = 
+                  (DataOutputStream)clients.get(it.next());
+            System.out.println(msg);
+
+            out.writeUTF(msg);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+      }
+   }
    class Receiver extends Thread
    {
       String name;
@@ -79,22 +94,7 @@ public class Server {
       
       }// run Á¾·á
    }
-   void sendToAll(String msg)
-   {
-      Iterator it =clients.keySet().iterator();
-      while(it.hasNext())
-      {
-         try {
-            DataOutputStream out = 
-                  (DataOutputStream)clients.get(it.next());
-            System.out.println(msg);
-
-            out.writeUTF(msg);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-   }
+  
    public static void main(String[] args) {
       new Server();
    }
